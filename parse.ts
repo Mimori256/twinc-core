@@ -463,7 +463,7 @@ const addDeadlines = (): string => {
 export const parseCSV = (
   tmpidList: string[],
   kdb: any,
-  isChecked: boolean,
+  ifDeadlinesIncluded: boolean,
   isFromKdbAlt: boolean
 ): string => {
   let output: string =
@@ -551,7 +551,7 @@ export const parseCSV = (
   }
 
   //Add register deadlines to the calendar if checked
-  if (!isChecked) {
+  if (ifDeadlinesIncluded) {
     output += addDeadlines();
   }
   return output;
