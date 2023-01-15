@@ -23,8 +23,9 @@ jobs:
           git add .
           if git diff --exit-code --quiet
           then
-            git config --global user.email "mimorimori256@gmail.com"
-            git config --global user.name "Mimori256"
+            git config --global user.email "action@github.com"
+            git config --global user.name "GitHub Action"
+            git pull
             git commit -m "update JSON: $(date +%Y%m%d)"
             git push -f origin main
           fi
