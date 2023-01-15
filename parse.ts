@@ -1,70 +1,33 @@
+import data from "./data/2022.json";
+
 //Global variables
+const beginSpringA: { [key: string]: string } = data["beginSpringA"];
+const beginSpringB: { [key: string]: string } = data["beginSpringB"];
+const beginSpringC: { [key: string]: string } = data["beginSpringC"];
+const beginFallA: { [key: string]: string } = data["beginFallA"];
+const beginFallB: { [key: string]: string } = data["beginFallB"];
+const beginFallC: { [key: string]: string } = data["beginFallC"];
 
-const beginSpringA: { [key: string]: string } = {
-  月: "20220418",
-  火: "20220419",
-  水: "20220413",
-  木: "20220414",
-  金: "20220415",
-  土: "20220416",
-};
+const springEndDate: { [key: string]: string } = data["springEndDate"];
+const fallEndDate: { [key: string]: string } = data["fallEndDate"];
 
-const beginSpringB: { [key: string]: string } = {
-  月: "20220530",
-  火: "20220531",
-  水: "20220525",
-  木: "20220526",
-  金: "20220527",
-  土: "20220528",
-};
+const springABCEndDate: string = data["springABCEndDate"];
+const fallABCEndDate: string = data["fallABCEndDate"];
 
-const beginSpringC: { [key: string]: string } = {
-  月: "20220711",
-  火: "20220712",
-  水: "20220706",
-  木: "20220707",
-  金: "20220708",
-  土: "20220709",
-};
+const springAHolidays: string[] = data["springAHolidays"];
+const springBHolidays: string[] = data["springBHolidays"];
+const springCHolidays: string[] = data["springCHolidays"];
+const fallAHolidays: string[] = data["fallAHolidays"];
+const fallBHolidays: string[] = data["fallBHolidays"];
+const fallCHolidays: string[] = data["fallCHolidays"];
 
-const beginFallA: { [key: string]: string } = {
-  月: "20221003",
-  火: "20221004",
-  水: "20221005",
-  木: "20221006",
-  金: "20221007",
-  土: "20221008",
-};
+const springABCHolidays: string[] = data["springABCHolidays"];
+const fallABCHolidays: string[] = data["fallABCHolidays"];
 
-const beginFallB: { [key: string]: string } = {
-  月: "20221114",
-  火: "20221115",
-  水: "20221116",
-  木: "20221117",
-  金: "20221111",
-  土: "20221112",
-};
+const rescheduledDateList: string[] = data["rescheduledDateList"];
+const rescheduledClassList: string[] = data["rescheduledClassList"];
 
-const beginFallC: { [key: string]: string } = {
-  月: "20230123",
-  火: "20230110",
-  水: "20230111",
-  木: "20230112",
-  金: "20230106",
-  土: "20230117",
-};
-
-const springEndDate: { [key: string]: string } = {
-  A: "20220523T130000Z;",
-  B: "20220628T130000Z;",
-  C: "20220809T130000Z;",
-};
-
-const fallEndDate: { [key: string]: string } = {
-  A: "20221109T130000Z;",
-  B: "20221221T130000Z;",
-  C: "20230214T130000Z;",
-};
+const deadlinesDate: string[] = data["deadlinesDate"];
 
 const engWeekday: { [key: string]: string } = {
   月: "MO",
@@ -101,109 +64,6 @@ const classEndPeriod: string[] = [
   "210000",
 ];
 
-const springABCEndDate = "20220802T130000Z";
-const fallABCEndDate = "20230207T130000Z";
-
-const springAHolidays: string[] = [
-  "20220502",
-  "20220503",
-  "20220504",
-  "20220505",
-  "20220506",
-  "20220524",
-];
-const springBHolidays: string[] = [];
-const springCHolidays: string[] = [];
-const fallAHolidays: string[] = [
-  "20221103",
-  "20221104",
-  "20221107",
-  "20221108",
-  "20221109",
-  "20221110",
-];
-
-const fallBHolidays: string[] = [
-  "20221123",
-  "20221128",
-  "20221129",
-  "20221130",
-  "20221225",
-];
-const fallCHolidays: string[] = ["20230113", "20230116", "20230117"];
-
-const springABCHolidays: string[] = [
-  "20220502",
-  "20220503",
-  "20220504",
-  "20220505",
-  "20220506",
-  "20220524",
-];
-const fallABCHolidays: string[] = [
-  "20221103",
-  "20221104",
-  "20221107",
-  "20221108",
-  "20221109",
-  "20221110",
-  "20221123",
-  "20221125",
-  "20221128",
-  "20221129",
-  "20221130",
-  "20221229",
-  "20221230",
-  "20221231",
-  "20230102",
-  "20230103",
-  "20230104",
-  "20230105",
-  "20230109",
-  "20230113",
-  "20230116",
-  "20230117",
-  "20230208",
-  "20230209",
-  "20230210",
-  "20230213",
-  "20230214",
-];
-
-//Date:Module:Class schedule of the day
-const rescheduledDateList: string[] = [
-  "20220506",
-  "20221108",
-  "20221109",
-  "20221125",
-  "20230117",
-];
-
-const rescheduledClassList: string[] = [
-  "春A:火",
-  "秋B:木",
-  "秋B:金",
-  "秋B:水",
-  "秋C:月",
-];
-
-const deadlinesDate: string[] = [
-  "20220411",
-  "20220426",
-  "20220516",
-  "20220524",
-  "20220531",
-  "20220627",
-  "20220712",
-  "20220921",
-  "20221014",
-  "20221101",
-  "20221110",
-  "20221117",
-  "20221222",
-  "20230117",
-];
-
 const deadlinesDetail: string[] = [
   "春A事前登録締め切り日",
   "春A履修登録締切日",
@@ -222,7 +82,7 @@ const deadlinesDetail: string[] = [
 ];
 
 //time stamp is supposed to be a date several days before the date of the first class
-const timeStamp: string = "20220408T000000";
+const timeStamp: string = data["timeStamp"];
 
 const createDateFormat = (
   DTSTART: string,
