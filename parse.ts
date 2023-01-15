@@ -224,10 +224,6 @@ const deadlinesDetail: string[] = [
 //time stamp is supposed to be a date several days before the date of the first class
 const timeStamp: string = "20220408T000000";
 
-const addZero = (str: string): string => {
-  return str.length === 1 && str !== "T" ? "0" + str : str;
-};
-
 const createDateFormat = (
   DTSTART: string,
   beginDate: string,
@@ -430,7 +426,7 @@ const removeABCHolidays = (module: string, period: string): string => {
   let holidaysList: string[];
   let exdate: string = "EXDATE:";
 
-  holidaysList = module[0] == "春" ? springABCHolidays : fallABCHolidays;
+  holidaysList = module[0] === "春" ? springABCHolidays : fallABCHolidays;
 
   for (let i: number = 0; i < holidaysList.length; i++) {
     exdate += holidaysList[i] + "T" + beginPeriod + ",";
@@ -469,16 +465,15 @@ export const parseCSV = (
   let output: string =
     "BEGIN:VCALENDAR\nPRODID:-//gam0022//TwinC 1.0//EN\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:授業時間割\nX-WR-TIMEZONE:Asia/Tokyo\nX-WR-CALDESC:授業時間割\nBEGIN:VTIMEZONE\nTZID:Asia/Tokyo\nX-LIC-LOCATION:Asia/Tokyo\nBEGIN:STANDARD\nTZOFFSETFROM:+0900\nTZOFFSETTO:+0900\nTZNAME:JST\nDTSTART:19700102T000000\nEND:STANDARD\nEND:VTIMEZONE\n";
   let idList = tmpidList.filter(function (ele, pos) {
-    return tmpidList.indexOf(ele) == pos;
+    return tmpidList.indexOf(ele) === pos;
   });
 
-  idList = idList.map((x) => x.replace(/[\"]/g, ""));
+  idList = idList.map((x) => x.replace(/["]/g, ""));
   idList = idList.map((x) => x.replace(/\r/g, ""));
 
   const eventBegin: string = "BEGIN:VEVENT\n";
   const eventEnd: string = "\nEND:VEVENT\n";
   let courseList: any = [];
-  let isABC: boolean;
   let idListLength;
 
   if (isFromKdbAlt) {
@@ -520,7 +515,6 @@ export const parseCSV = (
       if (!isAvailableModule(module) || !isAvaibaleDay(period)) continue;
 
       if (module.slice(1) === "ABC") {
-        isABC = true;
         icsEvent =
           getSpan(module, period) +
           getABCRepeat(module, period) +
@@ -532,7 +526,6 @@ export const parseCSV = (
           getRepeat(module, period) +
           getMisc(name, classroom, description);
         output += eventBegin + icsEvent + eventEnd;
-        isABC = false;
       }
       for (let k: number = 1; k < module.length; k++) {
         devidedModule = module[0] + module[k];
