@@ -1,4 +1,4 @@
-import data from "./data/2022.json";
+import data from "./data/2023.json";
 
 //Global variables
 const beginSpringA: { [key: string]: string } = data["beginSpringA"];
