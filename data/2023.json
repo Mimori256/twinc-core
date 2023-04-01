@@ -65,8 +65,8 @@
     "C": "20240214T130000Z;"
   },
 
-  "springABCEndDate": "20230802T130000Z",
-  "fallABCEndDate": "20240206T130000Z",
+  "springABCEndDate": "20230802T130000Z;",
+  "fallABCEndDate": "20240206T130000Z;",
 
   "springAHolidays": [
     "20230501",
