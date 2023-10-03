@@ -1,88 +1,46 @@
-import data from "./data/2023.json";
+import data from "./data/schedule.json";
+import { ScheduleData } from "./types/scheduleData";
+import {
+  engWeekday,
+  weekdayList,
+  classBeginPeriod,
+  classEndPeriod,
+  deadlinesDetail,
+} from "./const/constData";
+
+const scheduleData: ScheduleData = data;
 
 //Global variables
-const beginSpringA: { [key: string]: string } = data["beginSpringA"];
-const beginSpringB: { [key: string]: string } = data["beginSpringB"];
-const beginSpringC: { [key: string]: string } = data["beginSpringC"];
-const beginFallA: { [key: string]: string } = data["beginFallA"];
-const beginFallB: { [key: string]: string } = data["beginFallB"];
-const beginFallC: { [key: string]: string } = data["beginFallC"];
+const beginSpringA = scheduleData.beginSpringA;
+const beginSpringB = scheduleData.beginSpringB;
+const beginSpringC = scheduleData.beginSpringC;
+const beginFallA = scheduleData.beginFallA;
+const beginFallB = scheduleData.beginFallB;
+const beginFallC = scheduleData.beginFallC;
 
-const springEndDate: { [key: string]: string } = data["springEndDate"];
-const fallEndDate: { [key: string]: string } = data["fallEndDate"];
+const springEndDate = scheduleData.springEndDate;
+const fallEndDate = scheduleData.fallEndDate;
 
-const springABCEndDate: string = data["springABCEndDate"];
-const fallABCEndDate: string = data["fallABCEndDate"];
+const springABCEndDate = scheduleData.springABCEndDate;
+const fallABCEndDate = scheduleData.fallABCEndDate;
 
-const springAHolidays: string[] = data["springAHolidays"];
-const springBHolidays: string[] = data["springBHolidays"];
-const springCHolidays: string[] = data["springCHolidays"];
-const fallAHolidays: string[] = data["fallAHolidays"];
-const fallBHolidays: string[] = data["fallBHolidays"];
-const fallCHolidays: string[] = data["fallCHolidays"];
+const springAHolidays = scheduleData.springAHolidays;
+const springBHolidays = scheduleData.springBHolidays;
+const springCHolidays = scheduleData.springCHolidays;
+const fallAHolidays = scheduleData.fallAHolidays;
+const fallBHolidays = scheduleData.fallBHolidays;
+const fallCHolidays = scheduleData.fallCHolidays;
 
-const springABCHolidays: string[] = data["springABCHolidays"];
-const fallABCHolidays: string[] = data["fallABCHolidays"];
+const springABCHolidays = scheduleData.springABCHolidays;
+const fallABCHolidays = scheduleData.fallABCHolidays;
 
-const rescheduledDateList: string[] = data["rescheduledDateList"];
-const rescheduledClassList: string[] = data["rescheduledClassList"];
+const rescheduledDateList = scheduleData.rescheduledDateList;
+const rescheduledClassList = scheduleData.rescheduledClassList;
 
-const deadlinesDate: string[] = data["deadlinesDate"];
-
-const engWeekday: { [key: string]: string } = {
-  月: "MO",
-  火: "TU",
-  水: "WE",
-  木: "TH",
-  金: "FR",
-  土: "SA",
-};
-
-const weekdayList: string[] = ["月", "火", "水", "木", "金", "土"];
-
-//the head element(0) is a dummy
-const classBeginPeriod: string[] = [
-  "0",
-  "084000",
-  "101000",
-  "121500",
-  "134500",
-  "151500",
-  "164500",
-  "182000",
-  "194500",
-];
-const classEndPeriod: string[] = [
-  "0",
-  "095500",
-  "112500",
-  "133000",
-  "150000",
-  "163000",
-  "180000",
-  "193500",
-  "210000",
-];
-
-const deadlinesDetail: string[] = [
-  "春A事前登録締め切り日",
-  "春A履修登録締切日",
-  "春B事前登録締め切り日",
-  "春A期末試験",
-  "春B履修登録締切日",
-  "春C事前登録締め切り日",
-  "春C履修登録締切日",
-  "秋A事前登録締め切り日",
-  "秋A履修登録締切日",
-  "秋B事前登録締め切り日",
-  "秋A期末試験",
-  "秋B履修登録締切日",
-  "秋C事前登録締め切り日",
-  "秋C履修登録締切日",
-];
+const deadlinesDate = scheduleData.deadlinesDate;
 
 //time stamp is supposed to be a date several days before the date of the first class
-const timeStamp: string = data["timeStamp"];
+const timeStamp = scheduleData.timeStamp;
 
 const createDateFormat = (
   DTSTART: string,
