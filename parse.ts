@@ -1,5 +1,6 @@
 import data from "./data/schedule.json";
 import { ScheduleData } from "./types/scheduleData";
+import { Course, Kdb } from "./types/Kdb";
 import {
   engWeekday,
   weekdayList,
@@ -276,7 +277,7 @@ const addDeadlines = (): string => {
 
 export const parseCSV = (
   tmpidList: string[],
-  kdb: any,
+  kdb: Kdb,
   ifDeadlinesIncluded: boolean,
   isFromKdbAlt: boolean
 ): string => {
@@ -291,7 +292,7 @@ export const parseCSV = (
 
   const eventBegin: string = "BEGIN:VEVENT\n";
   const eventEnd: string = "\nEND:VEVENT\n";
-  let courseList: any = [];
+  let courseList: Course[] = [];
   let idListLength;
 
   if (isFromKdbAlt) {
