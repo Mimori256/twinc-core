@@ -349,14 +349,13 @@ export const parseCSV = (
       for (let k: number = 1; k < module.length; k++) {
         devidedModule = module[0] + module[k];
         devidedPeriod = period[0];
-        rescheduleIndex = rescheduledClassList.indexOf(
-          devidedModule + ":" + devidedPeriod
-        );
-        if (rescheduleIndex !== -1) {
-          icsEvent =
-            addReschedule(rescheduleIndex, period) +
-            getMisc(name, classroom, description);
-          output += eventBegin + icsEvent + eventEnd;
+
+        for (let i = 0; i < rescheduledClassList.length; i++) {
+          if (rescheduledClassList[i] === devidedModule + ":" + devidedPeriod) {
+            icsEvent =
+              addReschedule(i, period) + getMisc(name, classroom, description);
+            output += eventBegin + icsEvent + eventEnd;
+          }
         }
       }
     }
