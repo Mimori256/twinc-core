@@ -1,4 +1,4 @@
-export const engWeekday = {
+export const engWeekday: any = {
   月: "MO",
   火: "TU",
   水: "WE",

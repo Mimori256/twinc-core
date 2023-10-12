@@ -1,31 +1,17 @@
 export type BeginSpringSchedule = {
-  月: string;
-  火: string;
-  水: string;
-  木: string;
-  金: string;
-  土: string;
+  [key: string]: string;
 };
 
 export type BeginFallSchedule = {
-  月: string;
-  火: string;
-  水: string;
-  木: string;
-  金: string;
-  土: string;
+  [key: string]: string;
 };
 
 export type SpringEndDate = {
-  A: string;
-  B: string;
-  C: string;
+  [key: string]: string;
 };
 
 export type FallEndDate = {
-  A: string;
-  B: string;
-  C: string;
+  [key: string]: string;
 };
 
 export type SpringABCEndDate = string;
