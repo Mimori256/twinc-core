@@ -1,13 +1,13 @@
-import data from "./data/schedule.json";
-import { ScheduleData } from "./types/scheduleData";
-import { Course, Kdb } from "./types/Kdb";
 import {
-  engWeekday,
-  weekdayList,
   classBeginPeriod,
   classEndPeriod,
   deadlinesDetail,
+  engWeekday,
+  weekdayList,
 } from "./const/constData";
+import data from "./data/schedule.json";
+import { Course, Kdb } from "./types/Kdb";
+import { ScheduleData } from "./types/scheduleData";
 
 const scheduleData: ScheduleData = data;
 
@@ -48,7 +48,7 @@ const createDateFormat = (
   beginDate: string,
   beginPeriod: string,
   DTEND: string,
-  endPeriod: string
+  endPeriod: string,
 ): string => {
   return "".concat(
     DTSTART,
@@ -60,7 +60,7 @@ const createDateFormat = (
     beginDate,
     "T",
     endPeriod,
-    "\n"
+    "\n",
   );
 };
 
@@ -68,28 +68,32 @@ const isAvailableModule = (module: string): boolean => {
   return !(module.indexOf("春") === -1 && module.indexOf("秋") === -1);
 };
 
-const isAvaibaleDay = (period: string): boolean => {
+const isAvailableDay = (period: string): boolean => {
   //There's no Sunday class in the year
   return weekdayList.includes(period.slice(0, 1));
 };
 
 const getModulePeriodList = (
   moduleList: string[][],
-  periodList: string[][]
+  periodList: string[][],
 ): string[][] => {
-  let modulePeriodList: string[][] = [];
+  const modulePeriodList: string[][] = [];
   let tmpList: string[] = [];
+  let newPeriodList: string[][];
 
   if (moduleList.length === 1 && periodList.length > 1) {
     for (let i = 0; i < periodList.length; i++) {
       tmpList = tmpList.concat(periodList[i]);
     }
-    periodList = [tmpList];
+    newPeriodList = [tmpList];
+  } else {
+    newPeriodList = periodList;
   }
+
   for (let i = 0; i < moduleList.length; i++) {
     for (let j = 0; j < moduleList[i].length; j++) {
-      for (let k = 0; k < periodList[i].length; k++) {
-        modulePeriodList.push([moduleList[i][j], periodList[i][k]]);
+      for (let k = 0; k < newPeriodList[i].length; k++) {
+        modulePeriodList.push([moduleList[i][j], newPeriodList[i][k]]);
       }
     }
   }
@@ -153,40 +157,38 @@ const addReschedule = (index: number, period: string): string => {
 
 const getRepeat = (module: string, period: string): string => {
   let rrule = "RRULE:FREQ=WEEKLY;UNTIL=";
-  let exdate: string;
+  const exdate = removeHolidays(module, period);
 
   rrule +=
     module[0] === "春"
       ? springEndDate[module.slice(-1)]
       : fallEndDate[module.slice(-1)];
 
-  rrule += "BYDAY=" + engWeekday[period[0]] + "\n";
-  exdate = removeHolidays(module, period);
+  rrule += `BYDAY=${engWeekday[period[0]]}\n`;
   return rrule + exdate;
 };
 
 //For ABC module class
 const getABCRepeat = (module: string, period: string): string => {
   let rrule = "RRULE:FREQ=WEEKLY;UNTIL=";
-  let exdate: string;
+  const exdate = removeABCHolidays(module, period);
 
   rrule += module[0] === "春" ? springABCEndDate : fallABCEndDate;
 
-  rrule += "BYDAY=" + engWeekday[period[0]] + "\n";
-  exdate = removeABCHolidays(module, period);
+  rrule += `BYDAY=${engWeekday[period[0]]}\n`;
   return rrule + exdate;
 };
 
 const getMisc = (name: string, classroom: string, desc: string): string => {
-  const dtstamp: string = "DTSTAMP:" + timeStamp;
-  const created: string = "CREATED:" + timeStamp;
-  const description: string = "DESCRIPTION:" + desc;
-  const lastModified: string = "LAST-MODIFIED:" + timeStamp;
-  const classroomLocation: string = "LOCATION:" + classroom;
-  const sequence: string = "SEQUENCE:0";
-  const confirmed: string = "STATUS:CONFIRMED";
-  const summary: string = "SUMMARY:" + name;
-  const transp: string = "TRANSP:OPAQUE";
+  const dtstamp = `DTSTAMP:${timeStamp}`;
+  const created = `CREATED:${timeStamp}`;
+  const description = `DESCRIPTION:${desc}`;
+  const lastModified = `LAST-MODIFIED:${timeStamp}`;
+  const classroomLocation = `LOCATION:${classroom}`;
+  const sequence = "SEQUENCE:0";
+  const confirmed = "STATUS:CONFIRMED";
+  const summary = `SUMMARY:${name}`;
+  const transp = "TRANSP:OPAQUE";
 
   return [
     dtstamp,
@@ -202,7 +204,7 @@ const getMisc = (name: string, classroom: string, desc: string): string => {
 };
 
 const removeHolidays = (module: string, period: string): string => {
-  let beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
+  const beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
   let holidaysList: string[] = [];
   let exdate = "EXDATE:";
 
@@ -233,43 +235,40 @@ const removeHolidays = (module: string, period: string): string => {
   }
 
   for (let i = 0; i < holidaysList.length; i++) {
-    exdate += holidaysList[i] + "T" + beginPeriod + ",";
+    exdate += `${holidaysList[i]}T${beginPeriod},`;
   }
 
-  return exdate + "\n";
+  return `${exdate}\n`;
 };
 
 //For ABC classes
 const removeABCHolidays = (module: string, period: string): string => {
-  let beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
-  let holidaysList: string[];
+  const beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
+  const holidaysList = module[0] === "春" ? springABCHolidays : fallABCHolidays;
   let exdate = "EXDATE:";
 
-  holidaysList = module[0] === "春" ? springABCHolidays : fallABCHolidays;
-
   for (let i = 0; i < holidaysList.length; i++) {
-    exdate += holidaysList[i] + "T" + beginPeriod + ",";
+    exdate += `${holidaysList[i]}T${beginPeriod},`;
   }
 
-  return exdate + "\n";
+  return `${exdate}\n`;
 };
 
 const addDeadlines = (): string => {
-  let deadlinesList: string[] = [];
-  let misc =
+  const deadlinesList: string[] = [];
+  const misc =
     "DTSTAMP:20220408T000000\nCREATED:20220408T000000\nSTATUS:CONFIRMED\nTRANSP:TRANSPARENT\n";
   let dtstart: string;
   let dtend: string;
   let nextDate: string;
   let summary: string;
   let icsEvent: string;
-  for (let i: number = 0; i < deadlinesDate.length; i++) {
-    dtstart = "DTSTART;VALUE=DATE:" + deadlinesDate[i] + "\n";
+  for (let i = 0; i < deadlinesDate.length; i++) {
+    dtstart = `DTSTART;VALUE=DATE:${deadlinesDate[i]}\n`;
     nextDate = String(Number(deadlinesDate[i]) + 1);
-    dtend = "DTEND;VALUE=DATE:" + nextDate + "\n";
-    summary = "SUMMARY:" + deadlinesDetail[i] + "\n";
-    icsEvent =
-      "BEGIN:VEVENT\n" + dtstart + dtend + misc + summary + "END:VEVENT\n";
+    dtend = `DTEND;VALUE=DATE:${nextDate}\n`;
+    summary = `SUMMARY:${deadlinesDetail[i]}\n`;
+    icsEvent = `BEGIN:VEVENT\n${dtstart}${dtend}${misc}${summary}END:VEVENT\n`;
     deadlinesList.push(icsEvent);
   }
   return deadlinesList.join("");
@@ -279,21 +278,19 @@ export const parseCSV = (
   tmpidList: string[],
   kdb: Kdb,
   ifDeadlinesIncluded: boolean,
-  isFromKdbAlt: boolean
+  isFromKdbAlt: boolean,
 ): string => {
   let output =
     "BEGIN:VCALENDAR\nPRODID:-//gam0022//TwinC 1.0//EN\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:授業時間割\nX-WR-TIMEZONE:Asia/Tokyo\nX-WR-CALDESC:授業時間割\nBEGIN:VTIMEZONE\nTZID:Asia/Tokyo\nX-LIC-LOCATION:Asia/Tokyo\nBEGIN:STANDARD\nTZOFFSETFROM:+0900\nTZOFFSETTO:+0900\nTZNAME:JST\nDTSTART:19700102T000000\nEND:STANDARD\nEND:VTIMEZONE\n";
-  let idList = tmpidList.filter(function (ele, pos) {
-    return tmpidList.indexOf(ele) === pos;
-  });
+  let idList = tmpidList.filter((ele, pos) => tmpidList.indexOf(ele) === pos);
 
   idList = idList.map((x) => x.replace(/["]/g, ""));
   idList = idList.map((x) => x.replace(/\r/g, ""));
 
   const eventBegin = "BEGIN:VEVENT\n";
   const eventEnd = "\nEND:VEVENT\n";
-  let courseList: Course[] = [];
-  let idListLength;
+  const courseList: Course[] = [];
+  let idListLength: number;
 
   if (isFromKdbAlt) {
     idListLength = idList.length;
@@ -318,7 +315,7 @@ export const parseCSV = (
     const description: string = courseList[i].description;
     const modulePeriodList: string[][] = getModulePeriodList(
       moduleList,
-      periodList
+      periodList,
     );
     let module: string;
     let period: string;
@@ -328,9 +325,9 @@ export const parseCSV = (
     for (let j = 0; j < modulePeriodList.length; j++) {
       module = modulePeriodList[j][0];
       period = modulePeriodList[j][1];
-      let icsEvent: string = "";
+      let icsEvent = "";
 
-      if (!isAvailableModule(module) || !isAvaibaleDay(period)) continue;
+      if (!isAvailableModule(module) || !isAvailableDay(period)) continue;
 
       if (module.slice(1) === "ABC") {
         icsEvent =
@@ -345,12 +342,12 @@ export const parseCSV = (
           getMisc(name, classroom, description);
         output += eventBegin + icsEvent + eventEnd;
       }
-      for (let k: number = 1; k < module.length; k++) {
+      for (let k = 1; k < module.length; k++) {
         devidedModule = module[0] + module[k];
         devidedPeriod = period[0];
 
         for (let i = 0; i < rescheduledClassList.length; i++) {
-          if (rescheduledClassList[i] === devidedModule + ":" + devidedPeriod) {
+          if (rescheduledClassList[i] === `${devidedModule}:${devidedPeriod}`) {
             icsEvent =
               addReschedule(i, period) + getMisc(name, classroom, description);
             output += eventBegin + icsEvent + eventEnd;
