@@ -1,3 +1,4 @@
+import { fetchKdb } from "./fetchKdb";
 import kdb from "./kdb.json";
 import parseCSV from "./parse";
 
