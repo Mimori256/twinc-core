@@ -308,11 +308,20 @@ export const parseCSV = (
   }
 
   for (let i = 0; i < courseList.length; i++) {
-    const name: string = courseList[i].name;
-    const moduleList: string[][] = courseList[i].module;
-    const periodList: string[][] = courseList[i].period;
-    const classroom: string = courseList[i].room;
-    const description: string = courseList[i].description;
+    let name: string;
+    let moduleList: string[][];
+    let periodList: string[][];
+    let classroom: string;
+    let description: string;
+    try {
+     name  = courseList[i].name;
+     moduleList = courseList[i].module;
+     periodList  = courseList[i].period;
+     classroom = courseList[i].room;
+     description = courseList[i].description;
+    } catch (error) {
+      continue;
+    }
     const modulePeriodList: string[][] = getModulePeriodList(
       moduleList,
       periodList,
