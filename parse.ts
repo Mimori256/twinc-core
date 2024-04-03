@@ -65,7 +65,7 @@ const createDateFormat = (
 };
 
 const isAvailableModule = (module: string): boolean => {
-  return !(module.indexOf("春") === -1 && module.indexOf("秋") === -1);
+  return ["春", "秋"].some((season) => module.includes(season));
 };
 
 const isAvailableDay = (period: string): boolean => {
@@ -247,8 +247,8 @@ const removeABCHolidays = (module: string, period: string): string => {
   const holidaysList = module[0] === "春" ? springABCHolidays : fallABCHolidays;
   let exdate = "EXDATE:";
 
-  for (let i = 0; i < holidaysList.length; i++) {
-    exdate += `${holidaysList[i]}T${beginPeriod},`;
+  for (const holiday of holidaysList) {
+    exdate += `${holiday}T${beginPeriod},`;
   }
 
   return `${exdate}\n`;
@@ -263,11 +263,11 @@ const addDeadlines = (): string => {
   let nextDate: string;
   let summary: string;
   let icsEvent: string;
-  for (let i = 0; i < deadlinesDate.length; i++) {
-    dtstart = `DTSTART;VALUE=DATE:${deadlinesDate[i]}\n`;
-    nextDate = String(Number(deadlinesDate[i]) + 1);
+  for (const deadline of deadlinesDate) {
+    dtstart = `DTSTART;VALUE=DATE:${deadline}\n`;
+    nextDate = String(Number(deadline) + 1);
     dtend = `DTEND;VALUE=DATE:${nextDate}\n`;
-    summary = `SUMMARY:${deadlinesDetail[i]}\n`;
+    summary = `SUMMARY:${deadlinesDetail[deadlinesDate.indexOf(deadline)]}\n`;
     icsEvent = `BEGIN:VEVENT\n${dtstart}${dtend}${misc}${summary}END:VEVENT\n`;
     deadlinesList.push(icsEvent);
   }
@@ -314,11 +314,11 @@ export const parseCSV = (
     let classroom: string;
     let description: string;
     try {
-     name  = courseList[i].name;
-     moduleList = courseList[i].module;
-     periodList  = courseList[i].period;
-     classroom = courseList[i].room;
-     description = courseList[i].description;
+      name = courseList[i].name;
+      moduleList = courseList[i].module;
+      periodList = courseList[i].period;
+      classroom = courseList[i].room;
+      description = courseList[i].description;
     } catch (error) {
       continue;
     }
