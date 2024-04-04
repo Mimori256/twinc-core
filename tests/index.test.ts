@@ -1,6 +1,42 @@
+import fs from "fs";
 import { describe, expect, it } from "@jest/globals";
+import { createIdList } from "../createIdList";
 import kdb from "../data/sample-2023.json";
 import parseCSV from "../parse";
+
+describe("createIdList from TWINS data", () => {
+  const fileContent = fs.readFileSync("tests/twins-data.csv", "utf-8");
+  const idList = createIdList(fileContent, false);
+  it("should return an array", () => {
+    expect(Array.isArray(idList)).toBe(true);
+  });
+  it("should return an valid array", () => {
+    for (const id of idList) {
+      console.log(id);
+      console.log(id.length);
+    }
+    expect(idList.every((x) => typeof x === "string")).toBe(true);
+    expect(idList.every((x) => x.length === 7)).toBe(true);
+  });
+  it("should match the expected result", () => {
+    expect(idList).toMatchSnapshot();
+  });
+});
+
+describe("createIdList from KdB alt data", () => {
+  const fileContent = fs.readFileSync("tests/kdb-alt.csv", "utf-8");
+  const idList = createIdList(fileContent, true);
+  it("should return an array", () => {
+    expect(Array.isArray(idList)).toBe(true);
+  });
+  it("should return an valid array", () => {
+    expect(idList.every((x) => typeof x === "string")).toBe(true);
+    expect(idList.every((x) => x.length === 7)).toBe(true);
+  });
+  it("should match the expected result", () => {
+    expect(idList).toMatchSnapshot();
+  });
+});
 
 describe("parseCSV", () => {
   const idList = [

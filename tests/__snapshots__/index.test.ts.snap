@@ -1,5 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`createIdList from KdB alt data should match the expected result 1`] = `
+Array [
+  "GC22201",
+  "GC41103",
+  "GC41203",
+  "GC51701",
+  "GC51901",
+  "GC52701",
+  "GC53401",
+  "GC55401",
+]
+`;
+
+exports[`createIdList from TWINS data should match the expected result 1`] = `
+Array [
+  "GC51701",
+  "GC51901",
+  "GC52701",
+  "GC53401",
+  "GC55401",
+]
+`;
+
 exports[`parseCSV should match the expected result 1`] = `
 "BEGIN:VCALENDAR
 PRODID:-//gam0022//TwinC 1.0//EN
