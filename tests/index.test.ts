@@ -11,10 +11,6 @@ describe("createIdList from TWINS data", () => {
     expect(Array.isArray(idList)).toBe(true);
   });
   it("should return an valid array", () => {
-    for (const id of idList) {
-      console.log(id);
-      console.log(id.length);
-    }
     expect(idList.every((x) => typeof x === "string")).toBe(true);
     expect(idList.every((x) => x.length === 7)).toBe(true);
   });
