@@ -16,6 +16,9 @@ jobs:
         run: npm install -g corepack
 
       - run: corepack enable
+      - name: Enable pnpm
+        run: corepack prepare pnpm@latest --activate
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
