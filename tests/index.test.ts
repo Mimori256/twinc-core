@@ -1,11 +1,10 @@
-import fs from "fs";
-import { describe, expect, it } from "@jest/globals";
+import { readFileSync } from "node:fs";
 import { createIdList } from "../createIdList";
 import kdb from "../data/sample-2023.json";
 import parseCSV from "../parse";
 
 describe("createIdList from TWINS data", () => {
-  const fileContent = fs.readFileSync("tests/twins-data.csv", "utf-8");
+  const fileContent = readFileSync("tests/twins-data.csv", "utf-8");
   const idList = createIdList(fileContent, false);
   it("should return an array", () => {
     expect(Array.isArray(idList)).toBe(true);
@@ -20,7 +19,7 @@ describe("createIdList from TWINS data", () => {
 });
 
 describe("createIdList from KdB alt data", () => {
-  const fileContent = fs.readFileSync("tests/kdb-alt.csv", "utf-8");
+  const fileContent = readFileSync("tests/kdb-alt.csv", "utf-8");
   const idList = createIdList(fileContent, true);
   it("should return an array", () => {
     expect(Array.isArray(idList)).toBe(true);
