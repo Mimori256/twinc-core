@@ -1,10 +1,11 @@
 {
   "name": "twinc-core-ics-creator",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "packageManager": "pnpm@8.15.4",
   "description": "Core functions of TwinC.  \r This repository is used as a submodule in [twinc](https://github.com/Mimori256/twinc) and [twinc-cli](https://github.com/yudukikun5120/twinc-cli)",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsup index.ts"
   },
   "author": "Mimori",
   "license": "ISC",
@@ -19,7 +20,10 @@
     "typescript": "^5.3.3",
     "zod": "^3.24.2"
   },
-  "files": ["dist", "package.json"],
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",
