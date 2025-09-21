@@ -1,14 +1,18 @@
 export const createIdList = (fileContent: string, isFromKdBAlt: boolean) => {
+  const normalize = (s: string) => s.replace(/"/g, "").trim();
+
   const idList = isFromKdBAlt
     ? fileContent
-      .split("\n")
-      .map((x) => x.replace('"', ""))
-      .map((x) => x.split(",")[0])
-      .filter((x) => x !== "科目番号")
-      .filter((x, i, self) => self.indexOf(x) === i)
+        .split("\n")
+        .map((x) => x.split(",")[0])
+        .map(normalize)
+        .filter((x) => x !== "" && x !== "科目番号")
+        .filter((x, i, self) => self.indexOf(x) === i)
     : fileContent
-      .split("\n")
-      .filter((x, i, self) => self.indexOf(x) === i)
-      .map((x) => x.replace(/"/g, ""));
-  return idList.map((x) => x.trim());
+        .split("\n")
+        .map(normalize)
+        .filter((x) => x !== "" && x !== "科目番号")
+        .filter((x, i, self) => self.indexOf(x) === i);
+
+  return idList;
 };
