@@ -6,8 +6,8 @@ import {
   weekdayList,
 } from "./const/constData";
 import data from "./data/schedule.json";
-import { Course, Kdb } from "./types/Kdb";
-import { ScheduleData } from "./types/scheduleData";
+import type { Course, Kdb } from "./types/Kdb";
+import type { ScheduleData } from "./types/scheduleData";
 
 const scheduleData: ScheduleData = data;
 
@@ -137,8 +137,8 @@ const getSpan = (module: string, period: string): string => {
   }
 
   //Get the start and end time of the course
-  const beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
-  const endPeriod: string = classEndPeriod[parseInt(period.slice(-1))];
+  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
+  const endPeriod: string = classEndPeriod[Number.parseInt(period.slice(-1))];
 
   return createDateFormat(DTSTART, beginDate, beginPeriod, DTEND, endPeriod);
 };
@@ -149,8 +149,8 @@ const addReschedule = (index: number, period: string): string => {
   const DTEND = "DTEND;TZID=Asia/Tokyo:";
 
   //Get the start and end time of the course
-  const beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
-  const endPeriod: string = classEndPeriod[parseInt(period.slice(-1))];
+  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
+  const endPeriod: string = classEndPeriod[Number.parseInt(period.slice(-1))];
 
   return createDateFormat(DTSTART, beginDate, beginPeriod, DTEND, endPeriod);
 };
@@ -204,7 +204,7 @@ const getMisc = (name: string, classroom: string, desc: string): string => {
 };
 
 const removeHolidays = (module: string, period: string): string => {
-  const beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
+  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
   let holidaysList: string[] = [];
   let exdate = "EXDATE:";
 
@@ -243,7 +243,7 @@ const removeHolidays = (module: string, period: string): string => {
 
 //For ABC classes
 const removeABCHolidays = (module: string, period: string): string => {
-  const beginPeriod: string = classBeginPeriod[parseInt(period.slice(1, 2))];
+  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
   const holidaysList = module[0] === "春" ? springABCHolidays : fallABCHolidays;
   let exdate = "EXDATE:";
 
