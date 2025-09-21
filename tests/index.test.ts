@@ -43,7 +43,7 @@ describe("parseCSV", () => {
     "GC55201",
     "",
   ];
-  const ics = `${parseCSV(idList, kdb, true, false)}END:VCALENDAR`;
+  const ics = `${parseCSV(idList, kdb, true, false, {})}END:VCALENDAR`;
   it("should return a string", () => {
     expect(typeof ics).toBe("string");
   });

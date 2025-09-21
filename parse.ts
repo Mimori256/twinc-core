@@ -279,6 +279,7 @@ export const parseCSV = (
   kdb: Kdb,
   ifDeadlinesIncluded: boolean,
   isFromKdbAlt: boolean,
+  classroomDict: Record<string, string>,
 ): string => {
   let output =
     "BEGIN:VCALENDAR\nPRODID:-//gam0022//TwinC 1.0//EN\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:授業時間割\nX-WR-TIMEZONE:Asia/Tokyo\nX-WR-CALDESC:授業時間割\nBEGIN:VTIMEZONE\nTZID:Asia/Tokyo\nX-LIC-LOCATION:Asia/Tokyo\nBEGIN:STANDARD\nTZOFFSETFROM:+0900\nTZOFFSETTO:+0900\nTZNAME:JST\nDTSTART:19700102T000000\nEND:STANDARD\nEND:VTIMEZONE\n";
@@ -290,6 +291,7 @@ export const parseCSV = (
   const eventBegin = "BEGIN:VEVENT\n";
   const eventEnd = "\nEND:VEVENT\n";
   const courseList: Course[] = [];
+  const courseIdList: string[] = [];
   let idListLength: number;
 
   if (isFromKdbAlt) {
@@ -302,6 +304,7 @@ export const parseCSV = (
   for (let i = 0; i < idListLength; i++) {
     try {
       courseList.push(kdb[idList[i]]);
+      courseIdList.push(idList[i]);
     } catch (error) {
       //Do nothing
     }
@@ -317,7 +320,7 @@ export const parseCSV = (
       name = courseList[i].name;
       moduleList = courseList[i].module;
       periodList = courseList[i].period;
-      classroom = courseList[i].room;
+      classroom = classroomDict[courseIdList[i]] || courseList[i].room;
       description = courseList[i].description;
     } catch (error) {
       continue;
