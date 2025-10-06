@@ -137,7 +137,8 @@ const getSpan = (module: string, period: string): string => {
   }
 
   //Get the start and end time of the course
-  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
+  const beginPeriod: string =
+    classBeginPeriod[Number.parseInt(period.slice(1, 2))];
   const endPeriod: string = classEndPeriod[Number.parseInt(period.slice(-1))];
 
   return createDateFormat(DTSTART, beginDate, beginPeriod, DTEND, endPeriod);
@@ -149,7 +150,8 @@ const addReschedule = (index: number, period: string): string => {
   const DTEND = "DTEND;TZID=Asia/Tokyo:";
 
   //Get the start and end time of the course
-  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
+  const beginPeriod: string =
+    classBeginPeriod[Number.parseInt(period.slice(1, 2))];
   const endPeriod: string = classEndPeriod[Number.parseInt(period.slice(-1))];
 
   return createDateFormat(DTSTART, beginDate, beginPeriod, DTEND, endPeriod);
@@ -204,7 +206,8 @@ const getMisc = (name: string, classroom: string, desc: string): string => {
 };
 
 const removeHolidays = (module: string, period: string): string => {
-  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
+  const beginPeriod: string =
+    classBeginPeriod[Number.parseInt(period.slice(1, 2))];
   let holidaysList: string[] = [];
   let exdate = "EXDATE:";
 
@@ -243,7 +246,8 @@ const removeHolidays = (module: string, period: string): string => {
 
 //For ABC classes
 const removeABCHolidays = (module: string, period: string): string => {
-  const beginPeriod: string = classBeginPeriod[Number.parseInt(period.slice(1, 2))];
+  const beginPeriod: string =
+    classBeginPeriod[Number.parseInt(period.slice(1, 2))];
   const holidaysList = module[0] === "春" ? springABCHolidays : fallABCHolidays;
   let exdate = "EXDATE:";
 
@@ -285,6 +289,8 @@ export const parseCSV = (
     "BEGIN:VCALENDAR\nPRODID:-//gam0022//TwinC 1.0//EN\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:授業時間割\nX-WR-TIMEZONE:Asia/Tokyo\nX-WR-CALDESC:授業時間割\nBEGIN:VTIMEZONE\nTZID:Asia/Tokyo\nX-LIC-LOCATION:Asia/Tokyo\nBEGIN:STANDARD\nTZOFFSETFROM:+0900\nTZOFFSETTO:+0900\nTZNAME:JST\nDTSTART:19700102T000000\nEND:STANDARD\nEND:VTIMEZONE\n";
   let idList = tmpidList.filter((ele, pos) => tmpidList.indexOf(ele) === pos);
 
+  const isClassroomDictAvailable = Object.keys(classroomDict).length > 0;
+
   idList = idList.map((x) => x.replace(/["]/g, ""));
   idList = idList.map((x) => x.replace(/\r/g, ""));
 
@@ -320,7 +326,11 @@ export const parseCSV = (
       name = courseList[i].name;
       moduleList = courseList[i].module;
       periodList = courseList[i].period;
-      classroom = classroomDict[courseIdList[i]] || courseList[i].room;
+      if (isClassroomDictAvailable) {
+        classroom = classroomDict[courseIdList[i]] || courseList[i].room;
+      } else {
+        classroom = courseList[i].room;
+      }
       description = courseList[i].description;
     } catch (error) {
       continue;

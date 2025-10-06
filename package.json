@@ -5,6 +5,7 @@
   "description": "Core functions of TwinC.  \r This repository is used as a submodule in [twinc](https://github.com/Mimori256/twinc) and [twinc-cli](https://github.com/yudukikun5120/twinc-cli)",
   "scripts": {
     "test": "jest",
+    "test:update": "jest --updateSnapshot",
     "build": "tsup index.ts",
     "lint": "biome lint",
     "format": "biome format --write "
