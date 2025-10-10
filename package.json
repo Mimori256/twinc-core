@@ -1,6 +1,6 @@
 {
   "name": "twinc-core-ics-creator",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "packageManager": "pnpm@8.15.4",
   "description": "Core functions of TwinC.  \r This repository is used as a submodule in [twinc](https://github.com/Mimori256/twinc) and [twinc-cli](https://github.com/yudukikun5120/twinc-cli)",
   "scripts": {
