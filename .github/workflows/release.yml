@@ -46,20 +46,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Install latest npm and corepack
-        run: sudo npm install -g npm@latest corepack
-
-      - name: Enable pnpm via corepack
-        run: corepack enable pnpm && corepack prepare pnpm@latest --activate
-
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".node-version"
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Upgrade npm for OIDC trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Enable pnpm
+        run: corepack enable pnpm && corepack prepare pnpm@latest --activate
+
       - name: Check npm version
         run: npm --version
+
+      - name: Remove auth token to enable OIDC
+        run: npm config delete //registry.npmjs.org/:_authToken
 
       - name: Install dependencies
         run: pnpm install
