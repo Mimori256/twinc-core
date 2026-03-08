@@ -10,6 +10,10 @@
     "lint": "biome lint",
     "format": "biome format --write "
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mimori256/twinc-core"
+  },
   "author": "Mimori",
   "license": "ISC",
   "devDependencies": {
