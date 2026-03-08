@@ -46,8 +46,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install latest corepack
-        run: npm install -g corepack
+      - name: Install latest npm and corepack
+        run: npm install -g npm@latest corepack
 
       - run: corepack enable
 
