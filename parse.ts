@@ -64,6 +64,19 @@ const createDateFormat = (
   );
 };
 
+const addOneDay = (date: string): string => {
+  const year = Number.parseInt(date.slice(0, 4), 10);
+  const month = Number.parseInt(date.slice(4, 6), 10);
+  const day = Number.parseInt(date.slice(6, 8), 10);
+  const nextDate = new Date(Date.UTC(year, month - 1, day + 1));
+  const zeroPad = (value: number): string =>
+    value < 10 ? `0${value}` : String(value);
+
+  return `${nextDate.getUTCFullYear()}${zeroPad(
+    nextDate.getUTCMonth() + 1,
+  )}${zeroPad(nextDate.getUTCDate())}`;
+};
+
 const isAvailableModule = (module: string): boolean => {
   return ["春", "秋"].some((season) => module.includes(season));
 };
@@ -260,8 +273,7 @@ const removeABCHolidays = (module: string, period: string): string => {
 
 const addDeadlines = (): string => {
   const deadlinesList: string[] = [];
-  const misc =
-    "DTSTAMP:20220408T000000\nCREATED:20220408T000000\nSTATUS:CONFIRMED\nTRANSP:TRANSPARENT\n";
+  const misc = `DTSTAMP:${timeStamp}\nCREATED:${timeStamp}\nSTATUS:CONFIRMED\nTRANSP:TRANSPARENT\n`;
   let dtstart: string;
   let dtend: string;
   let nextDate: string;
@@ -269,7 +281,7 @@ const addDeadlines = (): string => {
   let icsEvent: string;
   for (const deadline of deadlinesDate) {
     dtstart = `DTSTART;VALUE=DATE:${deadline}\n`;
-    nextDate = String(Number(deadline) + 1);
+    nextDate = addOneDay(deadline);
     dtend = `DTEND;VALUE=DATE:${nextDate}\n`;
     summary = `SUMMARY:${deadlinesDetail[deadlinesDate.indexOf(deadline)]}\n`;
     icsEvent = `BEGIN:VEVENT\n${dtstart}${dtend}${misc}${summary}END:VEVENT\n`;

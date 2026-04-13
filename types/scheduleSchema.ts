@@ -67,8 +67,8 @@ export const universityScheduleSchema = z
       path: ["rescheduledDateList", "rescheduledClassList"],
     },
   )
-  .refine((data) => data.deadlinesDate.length === 14, {
-    message: "The length of deadlinesDate must be 14",
+  .refine((data) => data.deadlinesDate.length === 12, {
+    message: "The length of deadlinesDate must be 12",
     path: ["deadlinesDate"],
   });
 
