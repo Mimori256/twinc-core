@@ -41,7 +41,6 @@ describe("parseCSV", () => {
     "GC41203",
     "GC53401",
     "GC55201",
-    "",
   ];
   const ics = `${parseCSV(idList, kdb, true, false, {})}END:VCALENDAR`;
   it("should return a string", () => {

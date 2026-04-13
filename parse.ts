@@ -298,13 +298,7 @@ export const parseCSV = (
   const eventEnd = "\nEND:VEVENT\n";
   const courseList: Course[] = [];
   const courseIdList: string[] = [];
-  let idListLength: number;
-
-  if (isFromKdbAlt) {
-    idListLength = idList.length;
-  } else {
-    idListLength = idList.length - 1;
-  }
+  const idListLength = idList.length;
 
   //Search courses
   for (let i = 0; i < idListLength; i++) {
