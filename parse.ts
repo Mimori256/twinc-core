@@ -99,6 +99,8 @@ const getModulePeriodList = (
       tmpList = tmpList.concat(periodList[i]);
     }
     newPeriodList = [tmpList];
+  } else if (periodList.length === 1 && moduleList.length > 1) {
+    newPeriodList = moduleList.map(() => periodList[0]);
   } else {
     newPeriodList = periodList;
   }
