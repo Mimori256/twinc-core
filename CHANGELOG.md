@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.1] - 2026-04-18
+
+### Fixed
+
+- `parse.ts`: `moduleList` のエントリ数が `periodList` より多い場合にクラッシュする問題を修正
+
 ## [0.3.0] - 2026-04-14 (https://github.com/Mimori256/twinc-core/pull/43)
 
 ### Breaking Changes
